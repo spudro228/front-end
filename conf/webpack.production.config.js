@@ -27,7 +27,13 @@ export default new Config().extend('conf/webpack.base.config.js').merge({
     plugins: [
       new webpack.optimize.UglifyJsPlugin({
         compress: {
-          warnings: false
+          warnings: true
         }
-      })]
+      }),
+      new webpack.DefinePlugin({
+        "process.env": {
+          NODE_ENV: JSON.stringify("production")
+        }
+      }),
+    ]
 });

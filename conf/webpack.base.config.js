@@ -25,7 +25,14 @@ export default new Config().merge( {
             filename: 'index.html',            
             inject: "body"
         }),
-        new webpack.LoaderOptionsPlugin({ options: { postcss: [precss, autoprefixer] } })
-
+        new webpack.ProvidePlugin({
+            $: 'jquery',
+            jQuery: 'jquery',
+            'window.jQuery': 'jquery',
+            Popper: ['popper.js', 'default'],
+            // In case you imported plugins individually, you must also require them here:
+            Util: "exports-loader?Util!bootstrap/js/dist/util",
+            Dropdown: "exports-loader?Dropdown!bootstrap/js/dist/dropdown",
+        })
     ]
 });

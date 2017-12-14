@@ -13,7 +13,7 @@ export default new Config().extend('conf/webpack.base.config.js').merge({
   },
   module: {
     loaders: [{
-      test: /\.css$/,
+      test: /\.s?css$/,
       use: [
         'style-loader',
         {
@@ -21,11 +21,22 @@ export default new Config().extend('conf/webpack.base.config.js').merge({
           options: {
             modules: true,
             importLoaders: 1,
-            localIdentName: "[local]__[hash:base64:5]",
+            localIdentName: "[local]",
             minimize: false
           }
         },
-        { loader: 'postcss-loader' },
+        {
+          loader: 'postcss-loader', // Run post css actions
+          options: {
+            plugins:  () => { // post css plugins, can be exported to postcss.config.js
+              return [
+                require('precss'),
+                require('autoprefixer')
+              ];
+            }
+          }
+        },
+        'sass-loader'
       ]
     }]
   },
